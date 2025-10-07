@@ -14,13 +14,13 @@ adminRouter.post("/signin", function(req, res) {
   })
 })
 
-adminRouter.post("/course", function(req, res) {
+adminRouter.post("/", function(req, res) {
   res.json({
     message: "All courses"
   })
 })
 
-adminRouter.put("/course", function(req, res) {
+adminRouter.put("/", function(req, res) {
   res.json({
     message: "Courses"
   })
