@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { userModel } = require("../db");
 const jwt = require("jsonwebtoken");
-const { JWT_USER_PASSWORD } = require("../config.js");
+
 
 const userRouter = Router();
 
@@ -34,7 +34,7 @@ userRouter.post("/signin", async function (req, res) {
   if (user) {
     const token = jwt.sign({
       id: user._id
-    }, JWT_USER_PASSWORD);
+    }, process.env.JWT_USER_PASSWORD);
   
     //TODO: Do cookie logic
     res.json({

@@ -3,7 +3,6 @@ const adminRouter = Router();
 const { adminModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const { adminMiddleware } = require("../middleware/admin");
-const {JWT_ADMIN_PASSWORD} = require("../config");
 
 adminRouter.post("/signup", async function(req, res) {
   const { email, password, firstName, lastName } = req.body;
@@ -34,7 +33,7 @@ adminRouter.post("/signin", async function(req, res) {
   if (admin) {
     const token = jwt.sign({
       id: admin._id
-    }, JWT_ADMIN_PASSWORD);
+    }, process.env.JWT_ADMIN_PASSWORD);
 
     res.json({
       token: token
