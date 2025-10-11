@@ -2,7 +2,8 @@ const { Router } = require("express");
 const adminRouter = Router();
 const { adminModel } = require("../db");
 const jwt = require("jsonwebtoken");
-const JWT_ADMIN_PASSWORD = "krishna321321";
+const { adminMiddleware } = require("../middleware/admin");
+const {JWT_ADMIN_PASSWORD} = require("../config");
 
 adminRouter.post("/signup", async function(req, res) {
   const { email, password, firstName, lastName } = req.body;
@@ -45,9 +46,23 @@ adminRouter.post("/signin", async function(req, res) {
   }
 })
 
-adminRouter.post("/course", function(req, res) {
+adminRouter.post("/course", adminMiddleware, async function(req, res) {
+  const adminId = req.userId;
+
+  const { title, description, imageUrl, price } = req.body;
+
+  //TODO: using pipline for image url for harkirat creating web3 saas in 6 hrs
+  const course = await courseModel.create({
+    title: title,
+    description: description,
+    imageUrl: imageUrl,
+    price: price,
+    creatorId: adminId
+  })
+
   res.json({
-    message: "All courses"
+    message: "Course created",
+    courseId: course._id
   })
 })
 
