@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { userModel } = require("../db");
 const jwt = require("jsonwebtoken");
+const { userMiddleware }  = require("../middleware/user");
 
 
 const userRouter = Router();
@@ -9,7 +10,6 @@ userRouter.post("/signup", async function (req, res){
   const { email, password, firstName, lastName } = req.body;
   //TODO: addming zod validation 
   //TODO: has the password so plaintext pw is not stored in the DB
-
   //TODO: Put inside a try catch block
   await userModel.create({
     email: email,
@@ -48,7 +48,7 @@ userRouter.post("/signin", async function (req, res) {
 })
 
 
-userRouter.get("/purchases", function (req, res) {
+userRouter.get("/purchases", userMiddleware, function (req, res) {
   res.json({
     message: "my courses"
   })
